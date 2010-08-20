@@ -1,4 +1,4 @@
-﻿/*
+/*
  * jquery.tamper.js
  *  v 1.0
  *
@@ -13,6 +13,15 @@
  *  watchName   : element (textarea) to watch for changes
  *  exitName    : element (button) which classes as an exit when clicked
  *  messageText : text to show in the alert dialog
+ *
+ * Uses
+ *  on input element of edit page, if user edits value, flag set and leaving via 
+ *  back [exit] link show alert message
+ *
+ * Usage
+ *  $.tamper('.backBtn', '.comment', 'Im sorry, Dave. Im afraid I cant do that.');
+ *  $.tamperAlert('.backBtn', 'Did you really want to do that?');
+ * 
  */
 
 jQuery.tamper = function(watchName, exitName, messageText) {
