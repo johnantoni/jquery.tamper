@@ -17,6 +17,10 @@
  * Uses
  * 	on input element of edit page, if user edits value, flag set and leaving via 
  *  back [exit] link show alert message
+ *
+ * Usage
+ *  $.tamper('.backBtn', '.comment', 'Im sorry, Dave. Im afraid I cant do that.');
+ *  $.tamperAlert('.backBtn', 'Did you really want to do that?');
  * 
  */
 
