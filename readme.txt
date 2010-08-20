@@ -15,7 +15,7 @@
  *  messageText : text to show in the alert dialog
  *
  * Uses
- * 	on input element of edit page, if user edits value, flag set and leaving via 
+ *  on input element of edit page, if user edits value, flag set and leaving via 
  *  back [exit] link show alert message
  *
  * Usage
