@@ -20,8 +20,13 @@
  *
  * Usage
  *  $.tamper('.backBtn', '.comment', 'Im sorry, Dave. Im afraid I cant do that.');
+ *
+ * Simpler version
+ *  // assign message on click, if flag set to true
  *  $.tamperAlert('.backBtn', 'Did you really want to do that?');
  * 
+ *  // set flag manually to true
+ *  $.tamperAlert('.backBtn');
  */
 
 /*
