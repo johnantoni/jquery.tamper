@@ -26,7 +26,7 @@
  *  $.tamperAlert('.backBtn', 'Did you really want to do that?');
  * 
  *  // set flag manually to true
- *  $.tamperAlert('.backBtn');
+ *  $.tamperFlag('.backBtn');
  */
 
 /*
