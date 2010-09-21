@@ -18,4 +18,10 @@
  *  PLEASE NOTE: if an onclick event is present on the exit element it will clone it, remove it 
  *  and append it so when the user click's ok it fires.
  *
+ * Requires: jQuery v1.3+
+ * 
+ * Dual licensed under the MIT and GPL licenses:
+ *   http://www.opensource.org/licenses/mit-license.php
+ *   http://www.gnu.org/licenses/gpl.html 
+ * 
  */
