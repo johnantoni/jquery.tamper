@@ -41,7 +41,7 @@ jQuery.tamper = function(watchName, exitName, messageText) {
         exitEl.data('tamper', { watch: watchName, message: messageText});
         
         // if onclick action then clone it, remove it and append it to the end of an ok
-        if (exitEl.attr("onclick").length > 0) { 
+        if (typeof exitEl.attr("onclick") == 'function') { 
             var exitAction = exitEl.attr("onclick");
             exitEl.removeAttr("onclick"); 
         }
@@ -63,8 +63,8 @@ jQuery.tamper = function(watchName, exitName, messageText) {
                     returnVal = false;
                 }
             }
-            
-            if (returnVal === true || flag === false) {
+                        
+            if (returnVal === true | flag === false) {
                 if (exitAction) { 
                     exitEl.attr("onclick", exitAction); 
                 }
