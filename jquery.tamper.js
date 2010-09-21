@@ -64,7 +64,7 @@ jQuery.tamper = function(watchName, exitName, messageText) {
                 }
             }
             
-            if (returnVal === true) {
+            if (returnVal === true || flag === false) {
                 if (exitAction) { 
                     exitEl.attr("onclick", exitAction); 
                 }
