@@ -1,18 +1,23 @@
 /*
  * jquery.tamper.js
- *  v 1.0
+ *  v 1.1
  *
  * Initial Author
  *  John Griffiths
  * 
  * Description
- *  Simpy watches an element for changes, if any encountered flips the flag.
- *  If the exit button is clicked and the flag is true a dialog appears warning user will lose changes.
+ *  Simply watches an element for changes, if any encountered flips the tamper flag to true.
+ *  If the exit button is clicked and the tamper flag is set to true a dialog will appear warning 
+ *  the user they will lose their changes if they click OK.
  * 
  * Params:
- *  watchName   : element (textarea) to watch for changes
- *  exitName    : element (button) which classes as an exit when clicked
- *  messageText : text to show in the alert dialog
+ *  watchName   : (required) element (textarea) to watch for changes
+ *  exitName    : (required) element (button) which classes as an exit when clicked
+ *  messageText : (optional) text to show in the alert dialog
+ *
+ *  PLEASE NOTE: if an onclick event is present on the exit element it will clone it, remove it 
+ *  and append it so when the user click's ok it fires.
+ *
  */
 
 jQuery.tamper = function(watchName, exitName, messageText) {
@@ -28,6 +33,12 @@ jQuery.tamper = function(watchName, exitName, messageText) {
         // store arguments inside elements
         watchEl.data('altered', false);
         exitEl.data('tamper', { watch: watchName, message: messageText});
+        
+        // if onclick action then clone it, remove it and append it to the end of an ok
+        if (exitEl.attr("onclick").length > 0) { 
+            var exitAction = exitEl.attr("onclick");
+            exitEl.removeAttr("onclick"); 
+        }
 
         // watch any keystrokes, flip flag
         watchEl.keypress(function() {
@@ -46,13 +57,19 @@ jQuery.tamper = function(watchName, exitName, messageText) {
                     returnVal = false;
                 }
             }
+            
+            if (returnVal === true) {
+                if (exitAction) { 
+                    exitEl.attr("onclick", exitAction); 
+                }
+            }
             return returnVal;
         });    
     }
 };
 
-// simpler version, basically assigns a message 
-// on-click to an exit element to open if internal flag is true
+// simpler version (stand-alone function)
+// basically assigns a message on-click to an exit element to open if internal flag is true
 
 jQuery.tamperAlert = function(exitName, messageText) {
 
@@ -81,8 +98,9 @@ jQuery.tamperAlert = function(exitName, messageText) {
     }
 };
 
-// simply flips the exit element's internal flag to true
-// useful when have less control over actions, e.g. inside iframes
+// useful tool (stand-alone function)
+// simply flips the exit element's internal flag to true.
+// useful when have less control over actions, e.g. inside iframes.
 
 jQuery.tamperFlag = function(exitName) {
 
