@@ -40,7 +40,7 @@
 
         // store arguments inside elements
         watchEl.data('altered', false);
-        exitEl.data('tamper', { watch: watchName, message: messageText});
+        exitEl.data('tamper', { watch: this, message: messageText});
         
         // if onclick action then clone it, remove it and append it to the end of an ok
         if (typeof exitEl.attr("onclick") == 'function') { 
