@@ -1,6 +1,6 @@
 /*
  * jquery.tamper.js
- *  v 1.1
+ *  v 1.2
  *
  * Initial Author
  *  John Griffiths
@@ -11,9 +11,12 @@
  *  the user they will lose their changes if they click OK.
  * 
  * Params:
- *  watchName   : (required) element (textarea) to watch for changes
+ *  $(element)  : (required) element (textarea) to watch for changes
  *  exitName    : (required) element (button) which classes as an exit when clicked
  *  messageText : (optional) text to show in the alert dialog
+ *
+ * Example:
+ *  $("element_to_watch").tamper(exitName, messageText)
  *
  *  PLEASE NOTE: if an onclick event is present on the exit element it will clone it, remove it 
  *  and append it so when the user click's ok it fires.
@@ -26,95 +29,94 @@
  * 
  */
 
-jQuery.tamper = function(watchName, exitName, messageText) {
+(function($) {
 
-    // init
-    var watchEl = $(watchName);
-	var exitEl = $(exitName);
-    messageText = messageText || "Are you sure? \nDoing so will lose any pending changes."; // default text
+    $.fn.tamper = function(exitName, messageText) {
 
-    // begin
-    if (watchEl.length > 0) {
+        // init
+        var watchEl = $(this);
+	    var exitEl = $(exitName);
+        messageText = messageText || "Are you sure? \nDoing so will lose any pending changes."; // default text
 
-        // store arguments inside elements
-        watchEl.data('altered', false);
-        exitEl.data('tamper', { watch: watchName, message: messageText});
-        
-        // if onclick action then clone it, remove it and append it to the end of an ok
-        if (typeof exitEl.attr("onclick") == 'function') { 
-            var exitAction = exitEl.attr("onclick");
-            exitEl.removeAttr("onclick"); 
-        }
+        // begin
+        if (watchEl.length > 0) {
 
-        // watch any keystrokes, flip flag
-        watchEl.keypress(function() {
-            $(this).data('altered', true);
-        });
-        
-        // on clicking exit element, if tampered with, throw alert
-        exitEl.click(function() {
-            var returnVal = true;
-            var el = $(this).data('tamper').watch;
-            var flag = $(el).data('altered') || false;
-
-            if (flag) {
-                var msg = $(this).data('tamper').message;
-                if (confirm(msg) === false) {
-                    returnVal = false;
-                }
-            }
-                        
-            if (returnVal === true | flag === false) {
-                if (exitAction) { 
-                    exitEl.attr("onclick", exitAction); 
-                }
-            }
-            return returnVal;
-        });    
-    }
-};
-
-// simpler version (stand-alone function)
-// basically assigns a message on-click to an exit element to open if internal flag is true
-
-jQuery.tamperAlert = function(exitName, messageText) {
-
-    // init
-	var exitEl = $(exitName);
-    messageText = messageText || "Are you sure? \nDoing so will lose any pending changes."; // default text
-
-    // begin
-    if (exitEl.length > 0) {
-        // store arguments inside elements
-        exitEl.data('tamper', { message: messageText});
-        
-        // on clicking exit element, throw alert
-        exitEl.click(function() {
-            var returnVal = true;
-            var msg = $(this).data('tamper').message;
-            var flag = $(this).data('altered') || false;
+            // store arguments inside elements
+            watchEl.data('altered', false);
+            exitEl.data('tamper', { watch: watchName, message: messageText});
             
-            if (flag) {
-                if (confirm(msg) === false) { 
-                    returnVal = false; 
+            // if onclick action then clone it, remove it and append it to the end of an ok
+            if (typeof exitEl.attr("onclick") == 'function') { 
+                var exitAction = exitEl.attr("onclick");
+                exitEl.removeAttr("onclick"); 
+            }
+
+            // watch any keystrokes, flip flag
+            watchEl.keypress(function() {
+                $(this).data('altered', true);
+            });
+            
+            // on clicking exit element, if tampered with, throw alert
+            exitEl.click(function() {
+                var returnVal = true;
+                var el = $(this).data('tamper').watch;
+                var flag = $(el).data('altered') || false;
+
+                if (flag) {
+                    var msg = $(this).data('tamper').message;
+                    if (confirm(msg) === false) {
+                        returnVal = false;
+                    }
                 }
-            }    
-            return returnVal;
-        });    
-    }
-};
+                            
+                if (returnVal === true | flag === false) {
+                    if (exitAction) { 
+                        exitEl.attr("onclick", exitAction); 
+                    }
+                }
+                return returnVal;
+            });    
+        }
+    };
 
-// useful tool (stand-alone function)
-// simply flips the exit element's internal flag to true.
-// useful when have less control over actions, e.g. inside iframes.
 
-jQuery.tamperFlag = function(exitName) {
+    // (stand-alone) simpler version
+    // basically assigns a message on-click to an exit element to open if internal flag is true
 
-    // init
-	var exitEl = $(exitName);
+    $.fn.tamperAlert = function(messageText) {
 
-    // begin
-    if (exitEl.length > 0) {
-        exitEl.data('altered', true);
-    }
-};
+        // init
+	    var exitEl = $(this);
+        messageText = messageText || "Are you sure? \nDoing so will lose any pending changes."; // default text
+
+        // begin
+        if (exitEl.length > 0) {
+            // store arguments inside elements
+            exitEl.data('tamper', { message: messageText});
+            
+            // on clicking exit element, throw alert
+            exitEl.click(function() {
+                var returnVal = true;
+                var msg = $(this).data('tamper').message;
+                var flag = $(this).data('altered') || false;
+                
+                if (flag) {
+                    if (confirm(msg) === false) { 
+                        returnVal = false; 
+                    }
+                }    
+                return returnVal;
+            });    
+        }
+    };
+
+
+    // (stand-alone) simply flips the exit element's internal flag to true.
+    // useful when have less control over actions, e.g. inside iframes.
+
+    $.fn.tamperFlag = function() {
+
+        $(this).data('altered', true);
+    };
+
+})(jQuery); 
