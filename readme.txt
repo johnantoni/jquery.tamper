@@ -1,6 +1,6 @@
 /*
  * jquery.tamper.js
- *  v 1.1
+ *  v 1.2
  *
  * Initial Author
  *  John Griffiths
