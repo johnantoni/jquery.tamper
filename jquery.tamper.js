@@ -38,45 +38,42 @@
 	    var exitEl = $(exitName);
         messageText = messageText || "Are you sure? \nDoing so will lose any pending changes."; // default text
 
-        // begin
-        if (watchEl.length > 0) {
-
-            // store arguments inside elements
-            watchEl.data('altered', false);
-            exitEl.data('tamper', { watch: watchName, message: messageText});
-            
-            // if onclick action then clone it, remove it and append it to the end of an ok
-            if (typeof exitEl.attr("onclick") == 'function') { 
-                var exitAction = exitEl.attr("onclick");
-                exitEl.removeAttr("onclick"); 
-            }
-
-            // watch any keystrokes, flip flag
-            watchEl.keypress(function() {
-                $(this).data('altered', true);
-            });
-            
-            // on clicking exit element, if tampered with, throw alert
-            exitEl.click(function() {
-                var returnVal = true;
-                var el = $(this).data('tamper').watch;
-                var flag = $(el).data('altered') || false;
-
-                if (flag) {
-                    var msg = $(this).data('tamper').message;
-                    if (confirm(msg) === false) {
-                        returnVal = false;
-                    }
-                }
-                            
-                if (returnVal === true | flag === false) {
-                    if (exitAction) { 
-                        exitEl.attr("onclick", exitAction); 
-                    }
-                }
-                return returnVal;
-            });    
+        // store arguments inside elements
+        watchEl.data('altered', false);
+        exitEl.data('tamper', { watch: watchName, message: messageText});
+        
+        // if onclick action then clone it, remove it and append it to the end of an ok
+        if (typeof exitEl.attr("onclick") == 'function') { 
+            var exitAction = exitEl.attr("onclick");
+            exitEl.removeAttr("onclick"); 
         }
+
+        // watch any keystrokes, flip flag
+        watchEl.keypress(function() {
+            $(this).data('altered', true);
+        });
+        
+        // on clicking exit element, if tampered with, throw alert
+        exitEl.click(function() {
+            var returnVal = true;
+            var el = $(this).data('tamper').watch;
+            var flag = $(el).data('altered') || false;
+
+            if (flag) {
+                var msg = $(this).data('tamper').message;
+                if (confirm(msg) === false) {
+                    returnVal = false;
+                }
+            }
+                        
+            if (returnVal === true | flag === false) {
+                if (exitAction) { 
+                    exitEl.attr("onclick", exitAction); 
+                }
+            }
+            return returnVal;
+        });    
+        
     };
 
 
@@ -89,25 +86,23 @@
 	    var exitEl = $(this);
         messageText = messageText || "Are you sure? \nDoing so will lose any pending changes."; // default text
 
-        // begin
-        if (exitEl.length > 0) {
-            // store arguments inside elements
-            exitEl.data('tamper', { message: messageText});
+        // store arguments inside elements
+        exitEl.data('tamper', { message: messageText});
+        
+        // on clicking exit element, throw alert
+        exitEl.click(function() {
+            var returnVal = true;
+            var msg = $(this).data('tamper').message;
+            var flag = $(this).data('altered') || false;
             
-            // on clicking exit element, throw alert
-            exitEl.click(function() {
-                var returnVal = true;
-                var msg = $(this).data('tamper').message;
-                var flag = $(this).data('altered') || false;
-                
-                if (flag) {
-                    if (confirm(msg) === false) { 
-                        returnVal = false; 
-                    }
-                }    
-                return returnVal;
-            });    
-        }
+            if (flag) {
+                if (confirm(msg) === false) { 
+                    returnVal = false; 
+                }
+            }    
+            return returnVal;
+        });    
+
     };
 
 
