@@ -16,7 +16,7 @@
 *  messageText : (optional) text to show in the alert dialog
 *
 * Example:
-*  $("element_to_watch").tamper(exitName, messageText)
+*  $("element_to_watch, .tinyMCE").tamper("#cancelButton", "Are you really sure?")
 *
 *  PLEASE NOTE: if an onclick event is present on the exit element it will clone it, remove it 
 *  and append it so when the user click's ok it fires.
