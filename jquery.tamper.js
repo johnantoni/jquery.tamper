@@ -1,6 +1,6 @@
 /*
 * jquery.tamper.js
-*  v 1.3
+*  v 1.4
 *
 * Initial Author
 *  John Griffiths
@@ -9,6 +9,7 @@
 *  Simply watches an element for changes, if any encountered flips the tamper flag to true.
 *  If the exit button is clicked and the tamper flag is set to true a dialog will appear warning 
 *  the user they will lose their changes if they click OK.
+*  Added "return this;" to support method chaining.
 * 
 * Params:
 *  $(element)  : (required) element (textarea) to watch for changes
@@ -88,6 +89,7 @@
             return returnVal;
         });
 
+        return this;
     };
 
 
@@ -117,6 +119,7 @@
             return returnVal;
         });
 
+        return this;
     };
 
 
@@ -126,6 +129,8 @@
     $.fn.tamperFlag = function () {
 
         $(this).data('altered', true);
+
+        return this;
     };
 
 })(jQuery); 
